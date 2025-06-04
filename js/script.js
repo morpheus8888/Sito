@@ -9,7 +9,24 @@ document.addEventListener("DOMContentLoaded", function() {
   // Bolla => typed text
   const loaderDots     = document.getElementById("loaderDots");
   const typedText      = document.getElementById("typedtext");
+  const diarioTextarea = document.getElementById("diarioTextarea");
+  const saveDiary      = document.getElementById("saveDiary");
+  const calendar       = document.getElementById("calendar");
+  const monthDisplay   = document.getElementById("monthDisplay");
+  const prevMonth      = document.getElementById("prevMonth");
+  const nextMonth      = document.getElementById("nextMonth");
+  const loginForm      = document.getElementById("loginForm");
+  const registerForm   = document.getElementById("registerForm");
+  const logoutButton   = document.getElementById("logoutButton");
+  const loginSection   = document.getElementById("login");
+  const diarySection   = document.getElementById("diario");
+  const loginEmail     = document.getElementById("loginEmail");
+  const loginPassword  = document.getElementById("loginPassword");
+  const registerEmail  = document.getElementById("registerEmail");
+  const registerPassword = document.getElementById("registerPassword");
+  let selectedDate     = new Date();
   let isTyping         = false;
+  let entriesCache     = [];
 
   // Testo da scrivere con l'effetto typewriter
   var aText = [
@@ -131,6 +148,145 @@ document.addEventListener("DOMContentLoaded", function() {
       }
     }
   }
+
+  async function loadEntries() {
+    const res = await fetch('/api/entries', { credentials: 'same-origin' });
+    if (res.status === 401) {
+      showLoggedOut();
+      return;
+    }
+    entriesCache = await res.json();
+    showLoggedIn();
+    renderCalendar();
+    displayEntry();
+  }
+
+  function showLoggedOut() {
+    if (loginSection) loginSection.style.display = 'block';
+    if (diarySection) diarySection.style.display = 'none';
+    if (logoutButton) logoutButton.style.display = 'none';
+  }
+
+  function showLoggedIn() {
+    if (loginSection) loginSection.style.display = 'none';
+    if (diarySection) diarySection.style.display = 'block';
+    if (logoutButton) logoutButton.style.display = 'inline-block';
+  }
+
+  function displayEntry() {
+    const dateStr = selectedDate.toISOString().slice(0,10);
+    const entry = entriesCache.find(e => e.date === dateStr);
+    diarioTextarea.value = entry ? entry.text : '';
+    const today = new Date().toISOString().slice(0,10);
+    const editable = dateStr === today;
+    diarioTextarea.disabled = !editable;
+    saveDiary.disabled = !editable;
+  }
+
+  function renderCalendar() {
+    if (!calendar) return;
+    const current = new Date(selectedDate);
+    const year = current.getFullYear();
+    const month = current.getMonth();
+    const firstDay = new Date(year, month, 1);
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    calendar.innerHTML = '';
+    if (monthDisplay) {
+      const monthNames = ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
+      monthDisplay.textContent = `${monthNames[month]} ${year}`;
+    }
+    const weekdays = ['D','L','M','M','G','V','S'];
+    weekdays.forEach(w => {
+      const div = document.createElement('div');
+      div.textContent = w;
+      div.className = 'weekday';
+      calendar.appendChild(div);
+    });
+    for (let i=0; i<firstDay.getDay(); i++) {
+      calendar.appendChild(document.createElement('div'));
+    }
+    for (let d=1; d<=daysInMonth; d++) {
+      const date = new Date(year, month, d);
+      const dateStr = date.toISOString().slice(0,10);
+      const div = document.createElement('div');
+      div.textContent = d;
+      div.className = 'day';
+      if (entriesCache.some(e => e.date === dateStr)) div.classList.add('has-entry');
+      if (dateStr === selectedDate.toISOString().slice(0,10)) div.classList.add('selected');
+      div.addEventListener('click', () => {
+        selectedDate = date;
+        displayEntry();
+        renderCalendar();
+      });
+      calendar.appendChild(div);
+    }
+  }
+
+  renderCalendar();
+  displayEntry();
+
+  if (saveDiary) {
+    saveDiary.addEventListener('click', async () => {
+      await fetch('/api/entries', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
+        body: JSON.stringify({ date: selectedDate.toISOString().slice(0,10), text: diarioTextarea.value })
+      });
+      loadEntries();
+    });
+  }
+
+  if (prevMonth) {
+    prevMonth.addEventListener('click', () => {
+      selectedDate.setMonth(selectedDate.getMonth() - 1);
+      renderCalendar();
+      displayEntry();
+    });
+  }
+
+  if (nextMonth) {
+    nextMonth.addEventListener('click', () => {
+      selectedDate.setMonth(selectedDate.getMonth() + 1);
+      renderCalendar();
+      displayEntry();
+    });
+  }
+
+  if (loginForm) {
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
+        body: JSON.stringify({ email: loginEmail.value, password: loginPassword.value })
+      });
+      loadEntries();
+    });
+  }
+
+  if (registerForm) {
+    registerForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      await fetch('/api/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
+        body: JSON.stringify({ email: registerEmail.value, password: registerPassword.value })
+      });
+      loadEntries();
+    });
+  }
+
+  if (logoutButton) {
+    logoutButton.addEventListener('click', async () => {
+      await fetch('/api/logout', { method: 'POST', credentials: 'same-origin' });
+      showLoggedOut();
+    });
+  }
+
+  loadEntries();
 
   // CLICK SU LINK => scorrimento verso la sezione corrispondente
 document.querySelectorAll("nav ul li a").forEach(link => {
