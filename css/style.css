@@ -159,11 +159,6 @@ nav ul li a {
 .collapsed nav ul li#auth a::before {
   content: "login"; /* Icona Login */
 }
-=======
-
-.collapsed nav ul li#auth a::before {
-  content: "login"; /* Icona Login */
-}
 
 
 /* ================================
@@ -271,6 +266,40 @@ nav ul li a {
   max-width: 800px;
   min-height: 200px;
   padding: 15px;
+  border-radius: 10px;
+  border: none;
+  background: rgba(255,255,255,0.9);
+  color: #000;
+  font-family: inherit;
+  font-size: 18px;
+  resize: vertical;
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+}
+.calendar-container {
+  width: 90%;
+  max-width: 800px;
+  margin: 20px auto;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.calendar-header button {
+  background: #333;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.calendar-header span {
+  font-weight: bold;
+=======
   border-radius: 8px;
   border: 1px solid #ccc;
   background: #fff;
@@ -285,6 +314,7 @@ nav ul li a {
   font-size: 18px;
   border-radius: 5px;
   border: 1px solid #ccc;
+
 }
 .calendar {
   width: 90%;
@@ -333,6 +363,26 @@ form button {
   border: none;
   border-radius: 5px;
   cursor: pointer;
+}
+
+
+.login-wrapper {
+  width: 90%;
+  max-width: 400px;
+  margin: 0 auto;
+  background: #111;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.login-wrapper form {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.login-wrapper h2 {
+  margin: 0 0 10px;
 }
 
 

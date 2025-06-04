@@ -10,20 +10,24 @@ document.addEventListener("DOMContentLoaded", function() {
   const loaderDots     = document.getElementById("loaderDots");
   const typedText      = document.getElementById("typedtext");
   const diarioTextarea = document.getElementById("diarioTextarea");
-  const diaryDate      = document.getElementById("diaryDate");
+
   const saveDiary      = document.getElementById("saveDiary");
   const calendar       = document.getElementById("calendar");
+  const monthDisplay   = document.getElementById("monthDisplay");
+  const prevMonth      = document.getElementById("prevMonth");
+  const nextMonth      = document.getElementById("nextMonth");
+
   const loginForm      = document.getElementById("loginForm");
   const registerForm   = document.getElementById("registerForm");
   const logoutButton   = document.getElementById("logoutButton");
   const loginSection   = document.getElementById("login");
-  const registerSection= document.getElementById("register");
-  const diarySection   = document.getElementById("diario");
-  const loginUsername  = document.getElementById("loginUsername");
-  const loginPassword  = document.getElementById("loginPassword");
-  const registerUsername = document.getElementById("registerUsername");
-  const registerPassword = document.getElementById("registerPassword");
 
+  const diarySection   = document.getElementById("diario");
+  const loginEmail     = document.getElementById("loginEmail");
+  const loginPassword  = document.getElementById("loginPassword");
+  const registerEmail  = document.getElementById("registerEmail");
+  const registerPassword = document.getElementById("registerPassword");
+  let selectedDate     = new Date();
   let isTyping         = false;
   let entriesCache     = [];
 
@@ -163,35 +167,41 @@ document.addEventListener("DOMContentLoaded", function() {
 
   function showLoggedOut() {
     if (loginSection) loginSection.style.display = 'block';
-    if (registerSection) registerSection.style.display = 'block';
+
     if (diarySection) diarySection.style.display = 'none';
     if (logoutButton) logoutButton.style.display = 'none';
   }
 
   function showLoggedIn() {
     if (loginSection) loginSection.style.display = 'none';
-    if (registerSection) registerSection.style.display = 'none';
     if (diarySection) diarySection.style.display = 'block';
     if (logoutButton) logoutButton.style.display = 'inline-block';
   }
 
   function displayEntry() {
-    const entry = entriesCache.find(e => e.date === diaryDate.value);
+
+    const dateStr = selectedDate.toISOString().slice(0,10);
+    const entry = entriesCache.find(e => e.date === dateStr);
     diarioTextarea.value = entry ? entry.text : '';
     const today = new Date().toISOString().slice(0,10);
-    const editable = diaryDate.value === today;
+    const editable = dateStr === today;
     diarioTextarea.disabled = !editable;
     saveDiary.disabled = !editable;
   }
 
   function renderCalendar() {
     if (!calendar) return;
-    const current = new Date(diaryDate.value);
+    const current = new Date(selectedDate);
     const year = current.getFullYear();
     const month = current.getMonth();
     const firstDay = new Date(year, month, 1);
     const daysInMonth = new Date(year, month + 1, 0).getDate();
     calendar.innerHTML = '';
+    if (monthDisplay) {
+      const monthNames = ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
+      monthDisplay.textContent = `${monthNames[month]} ${year}`;
+    }
+
     const weekdays = ['D','L','M','M','G','V','S'];
     weekdays.forEach(w => {
       const div = document.createElement('div');
@@ -209,9 +219,10 @@ document.addEventListener("DOMContentLoaded", function() {
       div.textContent = d;
       div.className = 'day';
       if (entriesCache.some(e => e.date === dateStr)) div.classList.add('has-entry');
-      if (dateStr === diaryDate.value) div.classList.add('selected');
+      if (dateStr === selectedDate.toISOString().slice(0,10)) div.classList.add('selected');
       div.addEventListener('click', () => {
-        diaryDate.value = dateStr;
+        selectedDate = date;
+
         displayEntry();
         renderCalendar();
       });
@@ -219,13 +230,10 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   }
 
-  if (diaryDate) {
-    diaryDate.valueAsDate = new Date();
-    diaryDate.addEventListener('change', () => {
-      renderCalendar();
-      displayEntry();
-    });
-  }
+
+  renderCalendar();
+  displayEntry();
+
 
   if (saveDiary) {
     saveDiary.addEventListener('click', async () => {
@@ -233,11 +241,31 @@ document.addEventListener("DOMContentLoaded", function() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'same-origin',
-        body: JSON.stringify({ date: diaryDate.value, text: diarioTextarea.value })
+
+        body: JSON.stringify({ date: selectedDate.toISOString().slice(0,10), text: diarioTextarea.value })
+
       });
       loadEntries();
     });
   }
+
+
+  if (prevMonth) {
+    prevMonth.addEventListener('click', () => {
+      selectedDate.setMonth(selectedDate.getMonth() - 1);
+      renderCalendar();
+      displayEntry();
+    });
+  }
+
+  if (nextMonth) {
+    nextMonth.addEventListener('click', () => {
+      selectedDate.setMonth(selectedDate.getMonth() + 1);
+      renderCalendar();
+      displayEntry();
+    });
+  }
+
 
   if (loginForm) {
     loginForm.addEventListener('submit', async (e) => {
@@ -246,7 +274,9 @@ document.addEventListener("DOMContentLoaded", function() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'same-origin',
-        body: JSON.stringify({ username: loginUsername.value, password: loginPassword.value })
+
+        body: JSON.stringify({ email: loginEmail.value, password: loginPassword.value })
+
       });
       loadEntries();
     });
@@ -259,7 +289,9 @@ document.addEventListener("DOMContentLoaded", function() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'same-origin',
-        body: JSON.stringify({ username: registerUsername.value, password: registerPassword.value })
+
+        body: JSON.stringify({ email: registerEmail.value, password: registerPassword.value })
+
       });
       loadEntries();
     });

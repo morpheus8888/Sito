@@ -42,6 +42,7 @@
         <li id="diario"><a href="#diario">Diario</a></li>
         <li id="auth"><a href="#login">Registrati/Login</a></li>
 
+
       </ul>
     </nav>
   </header>
@@ -122,8 +123,19 @@
   <section class="section section-dark" id="diario">
     <div class="section-content">
       <h2 class="fade-in"><strong>Il tuo Diario</strong></h2>
+
+      <div class="calendar-container fade-in">
+        <div class="calendar-header">
+          <button id="prevMonth">&lt;</button>
+          <span id="monthDisplay"></span>
+          <button id="nextMonth">&gt;</button>
+        </div>
+        <div id="calendar" class="calendar"></div>
+      </div>
+
       <div id="calendar" class="calendar fade-in"></div>
       <input type="date" id="diaryDate" class="diary-date fade-in">
+
       <textarea id="diarioTextarea" class="diario-textarea fade-in" placeholder="Scrivi qui il tuo diario..."></textarea>
       <button id="saveDiary" class="diario-save fade-in">Salva</button>
     </div>
