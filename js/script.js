@@ -23,8 +23,10 @@ document.addEventListener("DOMContentLoaded", function() {
   const loginPassword  = document.getElementById("loginPassword");
   const registerUsername = document.getElementById("registerUsername");
   const registerPassword = document.getElementById("registerPassword");
+
   let isTyping         = false;
   let entriesCache     = [];
+
 
   // Testo da scrivere con l'effetto typewriter
   var aText = [

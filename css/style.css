@@ -159,6 +159,12 @@ nav ul li a {
 .collapsed nav ul li#auth a::before {
   content: "login"; /* Icona Login */
 }
+=======
+
+.collapsed nav ul li#auth a::before {
+  content: "login"; /* Icona Login */
+}
+
 
 /* ================================
    HERO SECTION
@@ -272,6 +278,7 @@ nav ul li a {
   font-family: inherit;
   font-size: 18px;
 }
+
 .diary-date {
   margin-bottom: 10px;
   padding: 8px;
@@ -327,6 +334,7 @@ form button {
   border-radius: 5px;
   cursor: pointer;
 }
+
 
 /* FOOTER */
 footer {
