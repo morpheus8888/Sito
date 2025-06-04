@@ -23,8 +23,16 @@ document.addEventListener("DOMContentLoaded", function() {
   const loginPassword  = document.getElementById("loginPassword");
   const registerUsername = document.getElementById("registerUsername");
   const registerPassword = document.getElementById("registerPassword");
+
   let isTyping         = false;
   let entriesCache     = [];
+
+  if (diarioTextarea) {
+    diarioTextarea.value = localStorage.getItem("diarioTesto") || "";
+    diarioTextarea.addEventListener("input", function() {
+      localStorage.setItem("diarioTesto", this.value);
+    });
+  }
 
   // Testo da scrivere con l'effetto typewriter
   var aText = [
