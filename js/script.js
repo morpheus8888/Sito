@@ -27,12 +27,6 @@ document.addEventListener("DOMContentLoaded", function() {
   let isTyping         = false;
   let entriesCache     = [];
 
-  if (diarioTextarea) {
-    diarioTextarea.value = localStorage.getItem("diarioTesto") || "";
-    diarioTextarea.addEventListener("input", function() {
-      localStorage.setItem("diarioTesto", this.value);
-    });
-  }
 
   // Testo da scrivere con l'effetto typewriter
   var aText = [

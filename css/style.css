@@ -156,6 +156,10 @@ nav ul li a {
 .collapsed nav ul li#diario a::before {
   content: "edit"; /* Icona Diario */
 }
+.collapsed nav ul li#auth a::before {
+  content: "login"; /* Icona Login */
+}
+=======
 
 .collapsed nav ul li#auth a::before {
   content: "login"; /* Icona Login */
