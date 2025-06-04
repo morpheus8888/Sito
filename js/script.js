@@ -9,7 +9,15 @@ document.addEventListener("DOMContentLoaded", function() {
   // Bolla => typed text
   const loaderDots     = document.getElementById("loaderDots");
   const typedText      = document.getElementById("typedtext");
+  const diarioTextarea = document.getElementById("diarioTextarea");
   let isTyping         = false;
+
+  if (diarioTextarea) {
+    diarioTextarea.value = localStorage.getItem("diarioTesto") || "";
+    diarioTextarea.addEventListener("input", function() {
+      localStorage.setItem("diarioTesto", this.value);
+    });
+  }
 
   // Testo da scrivere con l'effetto typewriter
   var aText = [

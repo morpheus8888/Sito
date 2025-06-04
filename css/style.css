@@ -153,6 +153,9 @@ nav ul li a {
 .collapsed nav ul li#contatti a::before {
   content: "contacts"; /* Icona Contatti */
 }
+.collapsed nav ul li#diario a::before {
+  content: "edit"; /* Icona Diario */
+}
 
 /* ================================
    HERO SECTION
@@ -253,6 +256,18 @@ nav ul li a {
 }
 .section-darkest {
   background: #070d07;
+}
+.diario-textarea {
+  width: 90%;
+  max-width: 800px;
+  min-height: 200px;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background: #fff;
+  color: #000;
+  font-family: inherit;
+  font-size: 18px;
 }
 
 /* FOOTER */
