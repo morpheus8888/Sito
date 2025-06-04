@@ -95,20 +95,26 @@
 
   <!-- SEZIONE LOGIN -->
   <section class="section section-dark" id="login">
-    <div class="section-content login-wrapper">
-      <h2 class="fade-in"><strong>Login</strong></h2>
-      <form id="loginForm" class="fade-in">
-        <input type="email" id="loginEmail" placeholder="Email" required>
-        <input type="password" id="loginPassword" placeholder="Password" required>
-        <button type="submit">Login</button>
-      </form>
-      <h2 class="fade-in"><strong>Registrati</strong></h2>
-      <form id="registerForm" class="fade-in">
-        <input type="email" id="registerEmail" placeholder="Email" required>
-        <input type="password" id="registerPassword" placeholder="Password" required>
-        <button type="submit">Registrati</button>
-      </form>
-      <button id="logoutButton" class="fade-in" style="display:none;">Logout</button>
+    <div class="section-content">
+      <div class="container fade-in">
+        <div class="top"></div>
+        <div class="bottom"></div>
+        <div class="center">
+          <h2>Please Sign In</h2>
+          <form id="loginForm">
+            <input type="email" id="loginEmail" placeholder="email" required>
+            <input type="password" id="loginPassword" placeholder="password" required>
+            <button type="submit">Login</button>
+          </form>
+          <h2>Registrati</h2>
+          <form id="registerForm">
+            <input type="email" id="registerEmail" placeholder="email" required>
+            <input type="password" id="registerPassword" placeholder="password" required>
+            <button type="submit">Registrati</button>
+          </form>
+          <button id="logoutButton" style="display:none;">Logout</button>
+        </div>
+      </div>
     </div>
   </section>
 
