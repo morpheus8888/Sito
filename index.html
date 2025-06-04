@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Psicologa Etica</title>
+
+  <!-- Font Baloo 2 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link 
+    href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;800&display=swap"
+    rel="stylesheet"
+  >
+
+  <!-- CSS principale -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- JS -->
+  <script defer src="js/script.js"></script>
+  <script defer src="js/rotatingText.js"></script>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="menu-top">
+    <div class="header-bar">
+      <!-- Hamburger -->
+      <button class="toggle-button">☰</button>
+    </div>
+
+    <!-- Menu con link a sezioni interne -->
+    <nav>
+      <ul>
+        <!-- Ogni link punta alla sezione #id corrispondente -->
+        <li id="home"><a href="#home">Home</a></li>
+        <li id="servizi"><a href="#servizi">Servizi</a></li>
+        <li id="percorsi"><a href="#percorsi">Percorsi</a></li>
+        <li id="prenotazione"><a href="#prenotazione">Prenotazione</a></li>
+        <li id="contatti"><a href="#contatti">Contatti</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- SEZIONE HOME con id="home" -->
+  <section class="hero-section" id="home">
+    <img 
+      src="images/background.png" 
+      alt="Hero Image" 
+      class="hero-img"
+    >
+    <div class="hero-rotating-container">
+      <div class="single-line-rotating-text">
+        <span class="static-part">psicologia</span>
+        <span class="rotating-part">
+          <span class="word alizarin">sorprendente.</span>
+          <span class="word wisteria">curativa.</span>
+          <span class="word peter-river">emozionante.</span>
+          <span class="word emerald">trasformativa.</span>
+          <span class="word sun-flower">potente.</span>
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEZIONE SERVIZI con id="servizi" -->
+  <section class="section section-dark" id="servizi">
+    <div class="section-content">
+      <h2 class="fade-in"><strong>Un progetto rivoluzionario</strong></h2>
+      <p class="fade-in">Scopri un nuovo modo di affrontare il benessere mentale.</p>
+    </div>
+  </section>
+
+  <!-- SEZIONE PERCORSI con id="percorsi" -->
+  <section class="section section-darker" id="percorsi">
+    <div class="section-content">
+      <h2 class="fade-in"><strong>Percorsi personalizzati</strong></h2>
+      <p class="fade-in">Ogni passo avanti è una conquista. Nulla è impossibile.</p>
+    </div>
+  </section>
+
+  <!-- SEZIONE PRENOTAZIONE con id="prenotazione" -->
+  <section class="section section-darkest" id="prenotazione">
+    <div class="section-content">
+      <h2 class="fade-in"><strong>Prenota il tuo incontro</strong></h2>
+      <p class="fade-in">Prenota facilmente la tua seduta, in presenza o online.</p>
+    </div>
+  </section>
+
+  <!-- SEZIONE CONTATTI con id="contatti" -->
+  <section class="section section-darker" id="contatti">
+    <div class="section-content">
+      <h2 class="fade-in"><strong>Contattami</strong></h2>
+      <p class="fade-in">Scorri in basso per sapere come contattarmi in qualsiasi momento.</p>
+
+      <!-- Bolla typewriter -->
+      <div class="bubble fade-in" id="contactBubble">
+        <div class="loader" id="loaderDots"></div>
+        <div id="typedtext"></div>
+      </div>
+
+      <!-- Lettera animata => mailto:... -->
+      <a href="mailto:info@tua-mail.com?subject=Richiesta%20Info" class="fade-in letter-container" id="letterContainer">
+        <div class="letter-image">
+          <div class="animated-mail">
+            <div class="back-fold"></div>
+            <div class="letter">
+              <div class="letter-border"></div>
+              <div class="letter-title"></div>
+              <div class="letter-context"></div>
+              <div class="letter-stamp">
+                <div class="letter-stamp-inner"></div>
+              </div>
+            </div>
+            <div class="top-fold"></div>
+            <div class="body"></div>
+            <div class="left-fold"></div>
+          </div>
+          <div class="shadow"></div>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; 2025 Psicologa Etica. Tutti i diritti riservati.</p>
+  </footer>
+
+</body>
+</html>

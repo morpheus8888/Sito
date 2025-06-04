@@ -1,0 +1,486 @@
+/* ================================
+   RESET E BASE
+ ================================ */
+html, body {
+  margin: 0; 
+  padding: 0;
+  width: 100%; 
+  height: 100%;
+  box-sizing: border-box;
+}
+
+/* Scroll morbido quando clicchi su #anchor */
+html {
+  scroll-behavior: smooth;
+}
+
+* {
+  box-sizing: inherit;
+}
+
+body {
+  font-family: 'Baloo 2', cursive, sans-serif;
+  background-color: #000;
+  color: #fff;
+  letter-spacing: 1px;
+  font-size: 20px;
+  overflow-x: hidden; /* no scroll orizzontale */
+  overflow-y: auto;
+}
+
+/* ================================
+   HEADER + MENU
+ ================================ */
+header {
+  background-color: rgba(0,0,0,0.7);
+  padding: 10px 20px;
+  position: fixed;
+  width: 100%;
+  top: 0; 
+  left: 0;
+  z-index: 1000;
+  transition: all 0.5s;
+}
+
+/* .header-bar => hamburger left, nav right in menu-top */
+.header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.menu-top {
+  width: 100%;
+}
+.menu-sidebar {
+  position: fixed;
+  top: 0; 
+  left: 0;
+  width: 160px; 
+  height: 100vh;
+  background-color: rgba(0,0,0,0.9);
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s;
+  z-index: 9999;
+  overflow-x: hidden; /* no scroll orizzontale in sidebar */
+}
+.nav-sidebar {
+  width: 100%;
+}
+.menu-sidebar nav {
+  overflow-y: auto; 
+  max-height: calc(100vh - 60px);
+  overflow-x: hidden;
+}
+
+/* nav ul => default menu */
+nav ul {
+  list-style: none; 
+  margin: 0; 
+  padding: 0;
+  display: flex; 
+  justify-content: center;
+}
+nav ul li {
+  margin: 0 15px;
+}
+nav ul li a {
+  color: #fff; 
+  text-decoration: none;
+  font-size: 18px;
+}
+.menu-sidebar nav ul {
+  flex-direction: column; 
+  align-items: flex-start;
+  margin-top: 10px;
+}
+.menu-sidebar nav ul li {
+  margin: 0; 
+  padding: 10px 0;
+}
+
+/* Pulsante hamburger */
+.toggle-button {
+  cursor: pointer;
+  border: none;
+  background: #333;
+  color: #fff;
+  padding: 8px 12px;
+  font-size: 18px;
+  border-radius: 4px;
+}
+.toggle-button:hover {
+  background: #555;
+}
+
+/* COLLAPSED => icone bianche testuali, no colore */
+.collapsed {
+  width: 80px !important;  /* piu largo, meglio per icone */
+  overflow: hidden !important;
+}
+
+.collapsed nav ul li a {
+  font-size: 0; 
+  margin: 0; /* Assicura che non ci sia spazio */
+  padding: 0; /* Rimuove spazio interno */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.collapsed nav ul li a::before {
+  font-family: "Material Icons";
+  font-size: 22px;
+  display: inline-block;
+  color: #666
+  margin: 0 2px;
+}
+
+.collapsed nav ul li#home a::before {
+  content: "home";  /* Icona Home */
+}
+.collapsed nav ul li#servizi a::before {
+  content: "settings"; /* Icona Servizi */
+}
+.collapsed nav ul li#percorsi a::before {
+  content: "directions"; /* Icona Percorsi */
+}
+.collapsed nav ul li#prenotazione a::before {
+  content: "event"; /* Icona Prenotazione */
+}
+.collapsed nav ul li#contatti a::before {
+  content: "contacts"; /* Icona Contatti */
+}
+
+/* ================================
+   HERO SECTION
+ ================================ */
+.hero-section {
+  position: relative;
+  width: 100vw; 
+  height: 100vh;
+  overflow: hidden;
+  text-align: center;
+}
+.hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* TESTO “psicologia” + rotanti */
+.hero-rotating-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.single-line-rotating-text {
+  display: inline-flex;
+  align-items: center; 
+  gap: 10px;
+}
+.static-part {
+  color: #444;
+  font-size: 48px;
+  font-weight: 800;
+}
+.rotating-part {
+  position: relative;
+  display: inline-block;
+  font-size: 48px;
+  width: 320px;  
+  height: 60px;  
+  overflow: hidden;
+  line-height: 1.2;
+}
+.word {
+  position: absolute; 
+  top: 0; 
+  left: 0; 
+  display: flex;
+  opacity: 0;
+}
+.word:nth-of-type(1) {
+  opacity: 1;
+}
+.letter {
+  transform-origin: center center 25px;
+}
+.letter.out {
+  transform: rotateX(90deg);
+  transition: 0.32s cubic-bezier(0.6, 0, 0.7, 0.2);
+}
+.letter.in {
+  transition: 0.38s ease;
+}
+.letter.behind {
+  transform: rotateX(-90deg);
+}
+
+/* palette di colore => classi */
+.alizarin    { color: #e74c3c; }
+.wisteria    { color: #8e44ad; }
+.peter-river { color: #3498db; }
+.emerald     { color: #2ecc71; }
+.sun-flower  { color: #f1c40f; }
+
+/* ================================
+   SEZIONI
+ ================================ */
+.section {
+  width: 100%;
+  min-height: 100vh;
+  padding: 80px 0;
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
+  flex-direction: column;
+}
+.section-content {
+  width: 90%; 
+  max-width: 1400px;
+  margin: 0 auto;
+  text-align: center;
+}
+.section-dark {
+  background: #1a1a1a;
+}
+.section-darker {
+  background: #0b280b;
+}
+.section-darkest {
+  background: #070d07;
+}
+
+/* FOOTER */
+footer {
+  text-align: center;
+  padding: 20px;
+  background-color: rgba(0,0,0,0.9);
+  margin: 0;
+}
+
+/* ================================
+   FADE-IN
+ ================================ */
+.fade-in {
+  opacity: 0;
+  transform: translateY(150px);
+  transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+}
+.visible .fade-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ================================
+   BUBBLE => FRECCIA IN BASSO A SX
+ ================================ */
+.bubble {
+  position: relative;
+  background: #000;
+  color: #fff;
+  font-size: 1rem;
+  line-height: 1.4;
+  text-align: center;
+  width: 300px;
+  border-radius: 10px;
+  margin: 40px auto 0;
+  padding: 16px;
+  min-height: 100px;
+  box-sizing: border-box;
+}
+.bubble:after {
+  content: '';
+  position: absolute;
+  display: block;
+  width: 0;
+  border-style: solid;
+  border-width: 0 0 18px 21px; 
+  border-color: transparent transparent #000 transparent;
+  top: 88%;
+  left: -21px;
+  margin-top: -9px;
+}
+
+/* LOADER => 3 pallini animazione l3 */
+.loader {
+  position: absolute;
+  bottom: 10px;
+  left: -70px;
+  width: 40px;
+  aspect-ratio: 2;
+  --_g: no-repeat radial-gradient(circle closest-side,#000 90%,#0000);
+  background: 
+    var(--_g) 0%   50%,
+    var(--_g) 50%  50%,
+    var(--_g) 100% 50%;
+  background-size: calc(100%/3) 50%;
+  animation: l3 1s infinite linear;
+  display: none;
+}
+@keyframes l3 {
+  20%{background-position:0%   0%, 50%  50%,100%  50%}
+  40%{background-position:0% 100%, 50%   0%,100%  50%}
+  60%{background-position:0%  50%, 50% 100%,100%   0%}
+  80%{background-position:0%  50%, 50%  50%,100% 100%}
+}
+
+/* LETTERA ANIMATA => BLU */
+.letter-container {
+  display: inline-block; 
+  text-decoration: none; 
+  color: inherit;
+  margin-top: 50px; 
+}
+.letter-image {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  cursor: pointer;
+}
+.animated-mail {
+  position: absolute;
+  width: 200px;
+  height: 150px;
+  transition: 0.4s;
+}
+.animated-mail .back-fold {
+  position: absolute;
+  bottom: 0;
+  width: 200px;
+  height: 100px;
+  background: #2980b9; 
+  z-index: 0;
+}
+.animated-mail .letter {
+  position: absolute;
+  left: 20px;
+  bottom: 0;
+  width: 160px;
+  height: 60px;
+  background: #ecf0f1;
+  z-index: 1;
+  overflow: hidden;
+  transition: 0.4s 0.2s;
+}
+.animated-mail .letter-border {
+  height: 10px;
+  width: 100%;
+  background: repeating-linear-gradient(
+    -45deg,
+    #3498db,
+    #3498db 8px,
+    transparent 8px,
+    transparent 18px
+  );
+}
+.animated-mail .letter-title {
+  margin-top: 10px;
+  margin-left: 5px;
+  height: 10px;
+  width: 40%;
+  background: #3498db;
+}
+.animated-mail .letter-context {
+  margin-top: 10px;
+  margin-left: 5px;
+  height: 10px;
+  width: 20%;
+  background: #3498db;
+}
+.animated-mail .letter-stamp {
+  margin-top: 30px;
+  margin-left: 120px;
+  border-radius: 100%;
+  height: 30px;
+  width: 30px;
+  background: #3498db;
+  opacity: 0.3;
+}
+.animated-mail .top-fold {
+  position: absolute;
+  top: 50px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 50px 100px 0 100px;
+  transform-origin: 50% 0%;
+  transition: transform 0.4s 0.4s, z-index 0.2s 0.4s;
+  border-color: #2980b9 transparent transparent transparent;
+  z-index: 2;
+}
+.animated-mail .body {
+  position: absolute;
+  bottom: 0;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 0 100px 200px;
+  border-color: transparent transparent #3498db transparent;
+  z-index: 2;
+}
+.animated-mail .left-fold {
+  position: absolute;
+  bottom: 0;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 50px 0 50px 100px;
+  border-color: transparent transparent transparent #5dade2;
+  z-index: 2;
+}
+.shadow {
+  position: absolute;
+  top: 200px;
+  left: 50%;
+  width: 400px;
+  height: 30px;
+  transition: 0.4s;
+  transform: translateX(-50%);
+  border-radius: 100%;
+  background: radial-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.0));
+}
+.letter-image:hover .animated-mail {
+  transform: translateY(50px);
+}
+.letter-image:hover .animated-mail .top-fold {
+  transition: transform 0.4s, z-index 0.2s;
+  transform: rotateX(180deg);
+  z-index: 0;
+}
+.letter-image:hover .letter {
+  height: 180px;
+}
+.letter-image:hover .shadow {
+  width: 250px;
+}
+
+/* ================================
+   MEDIA QUERIES
+ ================================ */
+@media (max-width: 768px) {
+  .toggle-button {
+    display: none !important;
+  }
+  .static-part {
+    font-size: 36px;
+  }
+  .rotating-part {
+    font-size: 36px; 
+    width: 270px;
+    height: 50px;
+  }
+  .bubble {
+    width: 80%;
+  }
+}
+@media (min-width: 769px) {
+  .section-content,
+  footer {
+    margin-left: 160px;
+  }
+}
