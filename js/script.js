@@ -10,7 +10,22 @@ document.addEventListener("DOMContentLoaded", function() {
   const loaderDots     = document.getElementById("loaderDots");
   const typedText      = document.getElementById("typedtext");
   const diarioTextarea = document.getElementById("diarioTextarea");
+  const diaryDate      = document.getElementById("diaryDate");
+  const saveDiary      = document.getElementById("saveDiary");
+  const calendar       = document.getElementById("calendar");
+  const loginForm      = document.getElementById("loginForm");
+  const registerForm   = document.getElementById("registerForm");
+  const logoutButton   = document.getElementById("logoutButton");
+  const loginSection   = document.getElementById("login");
+  const registerSection= document.getElementById("register");
+  const diarySection   = document.getElementById("diario");
+  const loginUsername  = document.getElementById("loginUsername");
+  const loginPassword  = document.getElementById("loginPassword");
+  const registerUsername = document.getElementById("registerUsername");
+  const registerPassword = document.getElementById("registerPassword");
+
   let isTyping         = false;
+  let entriesCache     = [];
 
   if (diarioTextarea) {
     diarioTextarea.value = localStorage.getItem("diarioTesto") || "";
@@ -139,6 +154,131 @@ document.addEventListener("DOMContentLoaded", function() {
       }
     }
   }
+
+  async function loadEntries() {
+    const res = await fetch('/api/entries', { credentials: 'same-origin' });
+    if (res.status === 401) {
+      showLoggedOut();
+      return;
+    }
+    entriesCache = await res.json();
+    showLoggedIn();
+    renderCalendar();
+    displayEntry();
+  }
+
+  function showLoggedOut() {
+    if (loginSection) loginSection.style.display = 'block';
+    if (registerSection) registerSection.style.display = 'block';
+    if (diarySection) diarySection.style.display = 'none';
+    if (logoutButton) logoutButton.style.display = 'none';
+  }
+
+  function showLoggedIn() {
+    if (loginSection) loginSection.style.display = 'none';
+    if (registerSection) registerSection.style.display = 'none';
+    if (diarySection) diarySection.style.display = 'block';
+    if (logoutButton) logoutButton.style.display = 'inline-block';
+  }
+
+  function displayEntry() {
+    const entry = entriesCache.find(e => e.date === diaryDate.value);
+    diarioTextarea.value = entry ? entry.text : '';
+    const today = new Date().toISOString().slice(0,10);
+    const editable = diaryDate.value === today;
+    diarioTextarea.disabled = !editable;
+    saveDiary.disabled = !editable;
+  }
+
+  function renderCalendar() {
+    if (!calendar) return;
+    const current = new Date(diaryDate.value);
+    const year = current.getFullYear();
+    const month = current.getMonth();
+    const firstDay = new Date(year, month, 1);
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    calendar.innerHTML = '';
+    const weekdays = ['D','L','M','M','G','V','S'];
+    weekdays.forEach(w => {
+      const div = document.createElement('div');
+      div.textContent = w;
+      div.className = 'weekday';
+      calendar.appendChild(div);
+    });
+    for (let i=0; i<firstDay.getDay(); i++) {
+      calendar.appendChild(document.createElement('div'));
+    }
+    for (let d=1; d<=daysInMonth; d++) {
+      const date = new Date(year, month, d);
+      const dateStr = date.toISOString().slice(0,10);
+      const div = document.createElement('div');
+      div.textContent = d;
+      div.className = 'day';
+      if (entriesCache.some(e => e.date === dateStr)) div.classList.add('has-entry');
+      if (dateStr === diaryDate.value) div.classList.add('selected');
+      div.addEventListener('click', () => {
+        diaryDate.value = dateStr;
+        displayEntry();
+        renderCalendar();
+      });
+      calendar.appendChild(div);
+    }
+  }
+
+  if (diaryDate) {
+    diaryDate.valueAsDate = new Date();
+    diaryDate.addEventListener('change', () => {
+      renderCalendar();
+      displayEntry();
+    });
+  }
+
+  if (saveDiary) {
+    saveDiary.addEventListener('click', async () => {
+      await fetch('/api/entries', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
+        body: JSON.stringify({ date: diaryDate.value, text: diarioTextarea.value })
+      });
+      loadEntries();
+    });
+  }
+
+  if (loginForm) {
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
+        body: JSON.stringify({ username: loginUsername.value, password: loginPassword.value })
+      });
+      loadEntries();
+    });
+  }
+
+  if (registerForm) {
+    registerForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      await fetch('/api/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
+        body: JSON.stringify({ username: registerUsername.value, password: registerPassword.value })
+      });
+      loadEntries();
+    });
+  }
+
+  if (logoutButton) {
+    logoutButton.addEventListener('click', async () => {
+      await fetch('/api/logout', { method: 'POST', credentials: 'same-origin' });
+      showLoggedOut();
+    });
+  }
+
+  loadEntries();
 
   // CLICK SU LINK => scorrimento verso la sezione corrispondente
 document.querySelectorAll("nav ul li a").forEach(link => {

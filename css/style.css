@@ -157,6 +157,11 @@ nav ul li a {
   content: "edit"; /* Icona Diario */
 }
 
+.collapsed nav ul li#auth a::before {
+  content: "login"; /* Icona Login */
+}
+
+
 /* ================================
    HERO SECTION
  ================================ */
@@ -269,6 +274,63 @@ nav ul li a {
   font-family: inherit;
   font-size: 18px;
 }
+
+.diary-date {
+  margin-bottom: 10px;
+  padding: 8px;
+  font-size: 18px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+.calendar {
+  width: 90%;
+  max-width: 800px;
+  margin: 20px auto;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+.calendar div {
+  border: 1px solid #444;
+  padding: 8px;
+  text-align: center;
+}
+.calendar .weekday {
+  background: #222;
+  font-weight: bold;
+}
+.calendar .day.has-entry {
+  background: #2e8b57;
+  cursor: pointer;
+}
+.calendar .day.selected {
+  outline: 2px solid #fff;
+}
+.diario-save {
+  margin-top: 10px;
+  padding: 10px 20px;
+  font-size: 18px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+form input {
+  width: 90%;
+  max-width: 400px;
+  padding: 8px;
+  margin-bottom: 10px;
+  font-size: 18px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+form button {
+  padding: 10px 20px;
+  font-size: 18px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
 
 /* FOOTER */
 footer {
