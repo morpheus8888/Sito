@@ -10,15 +10,18 @@ document.addEventListener("DOMContentLoaded", function() {
   const loaderDots     = document.getElementById("loaderDots");
   const typedText      = document.getElementById("typedtext");
   const diarioTextarea = document.getElementById("diarioTextarea");
+
   const saveDiary      = document.getElementById("saveDiary");
   const calendar       = document.getElementById("calendar");
   const monthDisplay   = document.getElementById("monthDisplay");
   const prevMonth      = document.getElementById("prevMonth");
   const nextMonth      = document.getElementById("nextMonth");
+
   const loginForm      = document.getElementById("loginForm");
   const registerForm   = document.getElementById("registerForm");
   const logoutButton   = document.getElementById("logoutButton");
   const loginSection   = document.getElementById("login");
+
   const diarySection   = document.getElementById("diario");
   const loginEmail     = document.getElementById("loginEmail");
   const loginPassword  = document.getElementById("loginPassword");
@@ -27,6 +30,7 @@ document.addEventListener("DOMContentLoaded", function() {
   let selectedDate     = new Date();
   let isTyping         = false;
   let entriesCache     = [];
+
 
   // Testo da scrivere con l'effetto typewriter
   var aText = [
@@ -163,6 +167,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
   function showLoggedOut() {
     if (loginSection) loginSection.style.display = 'block';
+
     if (diarySection) diarySection.style.display = 'none';
     if (logoutButton) logoutButton.style.display = 'none';
   }
@@ -174,6 +179,7 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
   function displayEntry() {
+
     const dateStr = selectedDate.toISOString().slice(0,10);
     const entry = entriesCache.find(e => e.date === dateStr);
     diarioTextarea.value = entry ? entry.text : '';
@@ -195,6 +201,7 @@ document.addEventListener("DOMContentLoaded", function() {
       const monthNames = ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
       monthDisplay.textContent = `${monthNames[month]} ${year}`;
     }
+
     const weekdays = ['D','L','M','M','G','V','S'];
     weekdays.forEach(w => {
       const div = document.createElement('div');
@@ -215,6 +222,7 @@ document.addEventListener("DOMContentLoaded", function() {
       if (dateStr === selectedDate.toISOString().slice(0,10)) div.classList.add('selected');
       div.addEventListener('click', () => {
         selectedDate = date;
+
         displayEntry();
         renderCalendar();
       });
@@ -222,8 +230,10 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   }
 
+
   renderCalendar();
   displayEntry();
+
 
   if (saveDiary) {
     saveDiary.addEventListener('click', async () => {
@@ -231,11 +241,14 @@ document.addEventListener("DOMContentLoaded", function() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'same-origin',
+
         body: JSON.stringify({ date: selectedDate.toISOString().slice(0,10), text: diarioTextarea.value })
+
       });
       loadEntries();
     });
   }
+
 
   if (prevMonth) {
     prevMonth.addEventListener('click', () => {
@@ -253,6 +266,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   }
 
+
   if (loginForm) {
     loginForm.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -260,7 +274,9 @@ document.addEventListener("DOMContentLoaded", function() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'same-origin',
+
         body: JSON.stringify({ email: loginEmail.value, password: loginPassword.value })
+
       });
       loadEntries();
     });
@@ -273,7 +289,9 @@ document.addEventListener("DOMContentLoaded", function() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'same-origin',
+
         body: JSON.stringify({ email: registerEmail.value, password: registerPassword.value })
+
       });
       loadEntries();
     });

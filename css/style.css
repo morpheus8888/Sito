@@ -160,6 +160,7 @@ nav ul li a {
   content: "login"; /* Icona Login */
 }
 
+
 /* ================================
    HERO SECTION
  ================================ */
@@ -298,6 +299,22 @@ nav ul li a {
 
 .calendar-header span {
   font-weight: bold;
+=======
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background: #fff;
+  color: #000;
+  font-family: inherit;
+  font-size: 18px;
+}
+
+.diary-date {
+  margin-bottom: 10px;
+  padding: 8px;
+  font-size: 18px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+
 }
 .calendar {
   width: 90%;
@@ -348,6 +365,7 @@ form button {
   cursor: pointer;
 }
 
+
 .login-wrapper {
   width: 90%;
   max-width: 400px;
@@ -366,6 +384,7 @@ form button {
 .login-wrapper h2 {
   margin: 0 0 10px;
 }
+
 
 /* FOOTER */
 footer {

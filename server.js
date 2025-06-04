@@ -29,6 +29,7 @@ function requireAuth(req, res, next) {
 }
 
 app.post('/api/register', async (req, res) => {
+
   const { email, password } = req.body;
   if (!email || !password) return res.status(400).json({ error: 'Missing data' });
   await db.read();
@@ -37,15 +38,18 @@ app.post('/api/register', async (req, res) => {
   }
   const id = Date.now().toString();
   db.data.users.push({ id, email, password });
+
   await db.write();
   req.session.userId = id;
   res.json({ success: true });
 });
 
 app.post('/api/login', async (req, res) => {
+
   const { email, password } = req.body;
   await db.read();
   const user = db.data.users.find(u => u.email === email && u.password === password);
+
   if (!user) return res.status(401).json({ error: 'Invalid credentials' });
   req.session.userId = user.id;
   res.json({ success: true });
