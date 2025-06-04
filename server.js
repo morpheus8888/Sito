@@ -6,7 +6,9 @@ const { JSONFile } = require('lowdb/node');
 const path = require('path');
 
 const app = express();
-const db = new Low(new JSONFile(path.join(__dirname, 'db.json')));
+const adapter = new JSONFile(path.join(__dirname, 'db.json'));
+const defaultData = { users: [], entries: [] };
+const db = new Low(adapter, defaultData);
 
 async function initDb() {
   await db.read();
